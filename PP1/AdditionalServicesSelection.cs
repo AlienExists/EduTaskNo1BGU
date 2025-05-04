@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PP1
@@ -17,7 +13,7 @@ namespace PP1
         DatabaseManager dbManager = new DatabaseManager();
         public AdditionalServicesSelection(int regId, string selectedServices)
         {
-            
+
             this.regId = regId;
             InitializeComponent();
             getSelectedServices(selectedServices);

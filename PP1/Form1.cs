@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PP1
@@ -48,7 +43,7 @@ namespace PP1
 
         }
 
-       
+
 
 
         private void registrationBtn_Click(object sender, EventArgs e)
@@ -56,11 +51,11 @@ namespace PP1
             try
             {
                 Person person;
-                if(registrationIsActive)
+                if (registrationIsActive)
                 {
                     person = new Person(FirstNameField.Text, SecondNameField.Text);
                 }
-                else 
+                else
                 {
                     person = new Person(ExistingPersonsCB.Text.Split(new char[] { ' ' })[0], ExistingPersonsCB.Text.Split(new char[] { ' ' })[1]);
                 }
@@ -110,16 +105,16 @@ namespace PP1
             //    Participant participant = new Participant(fio, pformat, psection, aservices);
             //    ParticipantsList.Plist.Add(participant);
             //    MessageBox.Show("Участник зарегистрирован");
-                
+
             //}
             //catch
             //{
             //    MessageBox.Show("Заполните все поля");
             //}
-            
+
         }
 
-        
+
 
         private void toParticipationsBtn_Click(object sender, EventArgs e)
         {
@@ -127,14 +122,14 @@ namespace PP1
 
             //if (!participationsFormIsActive)
             //{
-                
+
             //    //f2.Location = new Point(this.Location.X + this.Width, this.Location.Y);
             //    //participationsFormIsActive = true;
             //    //toParticipationsBtn.Text = "Список участников <<";
             //}
             //else
             //{
-                
+
             //    f2.Hide();
             //    participationsFormIsActive = false;
             //    toParticipationsBtn.Text = "Список участников >>";
@@ -145,7 +140,7 @@ namespace PP1
             Application.Exit();
         }
 
-       
+
 
         private void toParticipationsBtn_MouseEnter(object sender, EventArgs e)
         {
@@ -199,5 +194,5 @@ namespace PP1
     }
 
 
-    
+
 }

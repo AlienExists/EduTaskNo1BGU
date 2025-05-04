@@ -1,9 +1,5 @@
-﻿using System;
+﻿using PP1.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PP1.Models;
 
 namespace PP1
 {

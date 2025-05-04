@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Collections.Specialized.BitVector32;
-using PP1.Models;
 
 namespace PP1
 {
     public partial class Form2 : Form
     {
         DatabaseManager dbManager;
-        
+
         int regId = -1;
         int confId = -1;
         int sectId = -1;
@@ -39,9 +30,9 @@ namespace PP1
 
         private void participationSectionShowCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
 
-            
+
+
 
         }
 
@@ -56,10 +47,10 @@ namespace PP1
             //{
             //    if (!ParticipantsList.Plist[i].isAdded)
             //    {
-                    
+
             //        ParticipantsList.Plist[i].isAdded = true; 
             //    }
-                
+
             //}
         }
 
@@ -70,10 +61,10 @@ namespace PP1
 
         private void databaseListLB_DoubleClick(object sender, EventArgs e)
         {
-            
+
         }
 
-        
+
         private void fillDgv()
         {
             dataGridView1.DataSource = dbManager.getRegistrations();
@@ -86,45 +77,54 @@ namespace PP1
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            var selectedRow = e.RowIndex;
-            if (selectedRow >= 0)
+            try
             {
-                DataGridViewRow row = dataGridView1.Rows[selectedRow];
-
-
-                // Отображаем имя пользователя в текстбоксах
-
-                selectedPerson = new Person(row.Cells[3].Value.ToString(), row.Cells[4].Value.ToString());
-                firstName_TB.Text = selectedPerson.FirstName;
-                secondName_TB.Text = selectedPerson.SecondName;
-
-                // Отображаем конференции в комбо боксе
-                var selectedConf = ConferentionsList.CList.Find(c => c.id == int.Parse(row.Cells[1].Value.ToString()));
-                conferentions_CB.Text = $"{selectedConf.id} {selectedConf.name} {selectedConf.date} {(selectedConf.format == true ? "Очная" : "Онлайн")}";
-                conferentions_CB.Items.Clear();
-                for (int i = 0; i < ConferentionsList.CList.Count; i++)
+                var selectedRow = e.RowIndex;
+                if (selectedRow >= 0)
                 {
-                    conferentions_CB.Items.Add($"{ConferentionsList.CList[i].id} {ConferentionsList.CList[i].name} {ConferentionsList.CList[i].date} {(ConferentionsList.CList[i].format == true ? "Очная" : "Онлайн")}");
+                    DataGridViewRow row = dataGridView1.Rows[selectedRow];
+
+
+                    // Отображаем имя пользователя в текстбоксах
+
+                    selectedPerson = new Person(row.Cells[3].Value.ToString(), row.Cells[4].Value.ToString());
+                    firstName_TB.Text = selectedPerson.FirstName;
+                    secondName_TB.Text = selectedPerson.SecondName;
+
+                    // Отображаем конференции в комбо боксе
+                    var selectedConf = ConferentionsList.CList.Find(c => c.id == (int)row.Cells[1].Value);
+                    conferentions_CB.Text = $"{selectedConf.id} {selectedConf.name} {selectedConf.date} {(selectedConf.format == true ? "Очная" : "Онлайн")}";
+                    conferentions_CB.Items.Clear();
+                    for (int i = 0; i < ConferentionsList.CList.Count; i++)
+                    {
+                        conferentions_CB.Items.Add($"{ConferentionsList.CList[i].id} {ConferentionsList.CList[i].name} {ConferentionsList.CList[i].date} {(ConferentionsList.CList[i].format == true ? "Очная" : "Онлайн")}");
+                    }
+
+                    // Получаем айди выбранной конфы
+
+                    confId = selectedConf.id;
+
+                    // Получаем айди выбранной регистрации
+                    regId = (int)(row.Cells[0].Value);
+
+                    var selectedSect = SectionsList.SList.Find(c => c.id == (int)row.Cells[2].Value);
+
+                    sectId = selectedSect.id;
+                    psections_CB.Items.Clear();
+                    for (int i = 0; i < SectionsList.SList.Count; i++)
+                    {
+                        psections_CB.Items.Add($"{SectionsList.SList[i].name}");
+
+                    }
+                    psections_CB.Text = selectedSect.name;
                 }
-
-                // Получаем айди выбранной конфы
-
-                confId = selectedConf.id;
-
-                // Получаем айди выбранной регистрации
-                regId = int.Parse(row.Cells[0].Value.ToString());
-
-                var selectedSect = SectionsList.SList.Find(c => c.id == int.Parse(row.Cells[2].Value.ToString()));
-
-                sectId = selectedSect.id;
-                psections_CB.Items.Clear();
-                for (int i = 0; i < SectionsList.SList.Count; i++)
-                {
-                    psections_CB.Items.Add($"{SectionsList.SList[i].name}");
-
-                }
-                psections_CB.Text = selectedSect.name;
             }
+            catch (Exception ex)
+            {
+
+            }
+
+
         }
 
         private void updateBtn_Click(object sender, EventArgs e)
@@ -140,12 +140,12 @@ namespace PP1
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            if(regId != -1)
+            if (regId != -1)
             {
                 dbManager.deleteReg(regId);
                 MessageBox.Show("Запись удалена");
                 dataGridView1.DataSource = dbManager.getRegistrations();
-            }    
+            }
             else
             {
                 MessageBox.Show("Не выбрана запись");
@@ -159,15 +159,15 @@ namespace PP1
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Доп"].Index)
+            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Доп"].Index)
             {
                 string selectedServices = dataGridView1.Rows[e.RowIndex].Cells["Доп"].Value?.ToString() ?? "";
                 AdditionalServicesSelection selectionForm = new AdditionalServicesSelection(regId, selectedServices);
-                if(selectionForm.ShowDialog() == DialogResult.OK)
+                if (selectionForm.ShowDialog() == DialogResult.OK)
                 {
                     fillDgv();
                 }
-                
+
             }
         }
     }

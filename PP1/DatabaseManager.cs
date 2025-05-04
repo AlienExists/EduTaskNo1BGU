@@ -1,12 +1,8 @@
-﻿using System;
+﻿using PP1.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
-using PP1.Models;
-using System.Windows.Forms;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace PP1
 {
@@ -39,12 +35,12 @@ namespace PP1
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                foreach(string item in services)
+                foreach (string item in services)
                 {
                     var cmd = new SqlCommand($"SELECT id FROM AdditionalServices WHERE name = '{item}'", conn);
-                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while(reader.Read())
+                        while (reader.Read())
                         {
                             ids.Add((int)reader["id"]);
                         }
@@ -56,7 +52,7 @@ namespace PP1
             return ids;
         }
 
-        public void updateAdditionalServices(int regId, List<int>servIds)
+        public void updateAdditionalServices(int regId, List<int> servIds)
         {
             using (var conn = new SqlConnection(connectionString))
             {
@@ -66,13 +62,18 @@ namespace PP1
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@regId", regId);
                 cmd.ExecuteNonQuery();
-                string query = "";
-                foreach(int id in servIds)
+                if (servIds.Count > 0)
                 {
-                    query += $"INSERT INTO Registrations_Services (services_id, registrations_id) VALUES ({id}, {regId})";
+                    string query = "";
+
+                    foreach (int id in servIds)
+                    {
+                        query += $"INSERT INTO Registrations_Services (services_id, registrations_id) VALUES ({id}, {regId})";
+                    }
+                    var cmd2 = new SqlCommand(query, conn);
+                    cmd2.ExecuteNonQuery();
                 }
-                var cmd2 = new SqlCommand(query, conn);
-                cmd2.ExecuteNonQuery();
+
 
             }
         }
@@ -89,7 +90,7 @@ namespace PP1
                 {
                     while (reader.Read())
                     {
-                        if(DateTime.Now < DateTime.Parse(reader["date"].ToString()))
+                        if (DateTime.Now < DateTime.Parse(reader["date"].ToString()))
                         {
                             conferentions.Add(new Conferention((int)reader["id"], reader["name"].ToString(), DateTime.Parse(reader["date"].ToString()), bool.Parse(reader["format"].ToString())));
                         }
@@ -111,9 +112,9 @@ namespace PP1
                 {
                     while (reader.Read())
                     {
-                        
+
                         services.Add(new Service((int)reader["id"], reader["name"].ToString()));
-                        
+
                     }
                 }
             }
@@ -180,10 +181,10 @@ namespace PP1
 
                 }
             }
-            
+
         }
 
-        
+
 
 
         public int addNewPerson(Person person)
@@ -206,7 +207,7 @@ namespace PP1
                 return searchPerson(person);
             }
             return searchPerson(person);
-            
+
         }
 
         public void createRegistration(int personID, int conferentionID, int? sectionID, List<int> aservicesID)
@@ -214,7 +215,7 @@ namespace PP1
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                
+
                 SqlCommand searcher = new SqlCommand($"SELECT MAX(id) from Registrations", conn);
                 int registrationID = int.Parse(searcher.ExecuteScalar().ToString()) + 1;
 
@@ -271,12 +272,12 @@ GROUP BY Registrations.id, Conferentions.id, ParticipationSection.id, Persons.fi
             {
                 conn.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                
+
                 adapter.Fill(table);
             }
             return table;
         }
-            
+
         public void updateReg(int regId, int confId, int sectId, Person person)
         {
             int personId = addNewPerson(person);
@@ -316,7 +317,7 @@ GROUP BY Registrations.id, Conferentions.id, ParticipationSection.id, Persons.fi
                 cmd.Parameters.AddWithValue("@regId", regId);
                 cmd.ExecuteNonQuery();
             }
-            
+
         }
 
     }

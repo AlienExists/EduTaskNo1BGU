@@ -41,7 +41,7 @@
             this.additionalServicesChBL.FormattingEnabled = true;
             this.additionalServicesChBL.Location = new System.Drawing.Point(31, 67);
             this.additionalServicesChBL.Name = "additionalServicesChBL";
-            this.additionalServicesChBL.Size = new System.Drawing.Size(215, 84);
+            this.additionalServicesChBL.Size = new System.Drawing.Size(215, 68);
             this.additionalServicesChBL.TabIndex = 0;
             // 
             // okBtn
@@ -50,9 +50,9 @@
             this.okBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.okBtn.Font = new System.Drawing.Font("Trebuchet MS", 9F, System.Drawing.FontStyle.Bold);
             this.okBtn.ForeColor = System.Drawing.Color.White;
-            this.okBtn.Location = new System.Drawing.Point(102, 170);
+            this.okBtn.Location = new System.Drawing.Point(105, 165);
             this.okBtn.Name = "okBtn";
-            this.okBtn.Size = new System.Drawing.Size(75, 23);
+            this.okBtn.Size = new System.Drawing.Size(75, 27);
             this.okBtn.TabIndex = 1;
             this.okBtn.Text = "OK";
             this.okBtn.UseVisualStyleBackColor = false;
@@ -66,7 +66,7 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(295, 54);
+            this.label2.Size = new System.Drawing.Size(294, 54);
             this.label2.TabIndex = 3;
             this.label2.Text = "Изменение доп услуг";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -76,7 +76,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(219)))), ((int)(((byte)(233)))));
-            this.ClientSize = new System.Drawing.Size(295, 209);
+            this.ClientSize = new System.Drawing.Size(294, 208);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.okBtn);
             this.Controls.Add(this.additionalServicesChBL);
